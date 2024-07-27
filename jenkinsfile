@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'rm -rf build'
+                sh 'mkdir build'
+                sh 'touch build/first.txt'
+                sh 'echo "sanjeev" >build/first.txt'
+            }
+        }
+         stage('Test') 
+          {
+             steps
+             {
+                 sh 'test -f build/first.txt'
+                 sh 'grep "sanjeev" build/first.txt'
+              }
+          }
+          
+          stage('Publish')
+          {
+              steps
+              {
+                  archiveArtifacts artifacts: 'build/'
+              }
+          }
+             
+    }
+}
